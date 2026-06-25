@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ForestML — Forest Cover Type Classifier
 Open-End Lab | Spring 2026 | CLO 03, 04, 05
 
@@ -113,3 +114,11 @@ POST http://localhost:8000/predict
 - **Source**: UCI Machine Learning Repository
 - **Rows**: 581,012  |  **Features**: 55  |  **Classes**: 7
 - **Target**: Cover_Type (1=Spruce/Fir, 2=Lodgepole Pine, ..., 7=Krummholz)
+=======
+# Forest-Cover-Type-Dataset-ML-
+In this project on a data set named as Forest Cover Type. i will apply different algorithms to check which algorithm will fit perfectly.
+<br>
+i will apply different algorithms like knn,naive base,Random Forest e.t.c to check which will fit perfectly<br>
+i will make a frontend using html,css,js then connect to fast APi <br>
+that's it for now 
+>>>>>>> 6f41f19a7f094436daf40d75f3d8cc0f3a336b5f

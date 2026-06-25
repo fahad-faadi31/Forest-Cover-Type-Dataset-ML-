@@ -72,9 +72,6 @@ uvicorn main:app --reload --port 8000
 API will be live at: http://localhost:8000
 Interactive docs at: http://localhost:8000/docs
 
-### Step 4 — Open the Frontend
-Simply open `frontend/index.html` in your browser.
-The status badge in the navbar will turn green when connected.
 
 ---
 

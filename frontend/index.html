@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ForestML — Cover Type Classifier</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Playfair+Display:wght@700&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ═══════════════════════  NAVBAR  ═══════════════════════ -->
+<nav>
+  <div class="nav-brand">
+    <div class="nav-logo">🌲</div>
+    <span class="nav-title">ForestML</span>
+  </div>
+  <div class="nav-links">
+    <a href="#dataset">Dataset</a>
+    <a href="#predict">Predict</a>
+    <a href="#compare">Compare</a>
+  </div>
+  <span class="nav-badge">SPRING 2026</span>
+</nav>
+
+<!-- ═══════════════════════  HERO  ════════════════════════ -->
+<div class="hero">
+  <div class="hero-eyebrow">UCI Forest Cover Type Dataset</div>
+  <h1>Forest Cover Type<br><span>Classification System</span></h1>
+  <p>Predict the dominant tree species of Roosevelt National Forest using elevation,
+     hydrology, soil type &amp; more — powered by KNN, Naïve Bayes, K-Means &amp; Random Forest.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="val">581,012</span><span class="lbl">Instances</span></div>
+    <div class="hero-stat"><span class="val">55</span><span class="lbl">Features</span></div>
+    <div class="hero-stat"><span class="val">7</span><span class="lbl">Cover Classes</span></div>
+    <div class="hero-stat"><span class="val">4</span><span class="lbl">ML Algorithms</span></div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ═══════════════════  DATASET SECTION  ═════════════════ -->
+<section id="dataset">
+  <div class="section-header">
+    <span class="section-num">01</span>
+    <h2>Dataset Overview</h2>
+  </div>
+
+  <div class="dataset-grid">
+    <div class="ds-cell">
+      <div class="ds-label">Source</div>
+      <div class="ds-val">UCI / Kaggle</div>
+      <div class="ds-sub">Blackard &amp; Dean, 1999</div>
+    </div>
+    <div class="ds-cell">
+      <div class="ds-label">Total Rows</div>
+      <div class="ds-val">581,012</div>
+      <div class="ds-sub">≫ 2,500 min requirement</div>
+    </div>
+    <div class="ds-cell">
+      <div class="ds-label">Features</div>
+      <div class="ds-val">55</div>
+      <div class="ds-sub">≫ 20 min requirement</div>
+    </div>
+    <div class="ds-cell">
+      <div class="ds-label">Target Classes</div>
+      <div class="ds-val">7</div>
+      <div class="ds-sub">≥ 4 required — ✓ Pass</div>
+    </div>
+    <div class="ds-cell">
+      <div class="ds-label">Missing Values</div>
+      <div class="ds-val">0</div>
+      <div class="ds-sub">Perfectly clean dataset</div>
+    </div>
+  </div>
+
+  <div class="two-col">
+    <!-- Class Distribution -->
+    <div class="form-card">
+      <h3>Class Distribution</h3>
+      <div class="class-bars">
+        <div class="class-bar-row">
+          <span class="class-name">Lodgepole Pine</span>
+          <div class="bar-track"><div class="bar-fill dominant" style="width:100%"></div></div>
+          <span class="bar-count">283,301</span>
+        </div>
+        <div class="class-bar-row">
+          <span class="class-name">Spruce/Fir</span>
+          <div class="bar-track"><div class="bar-fill" style="width:74.8%"></div></div>
+          <span class="bar-count">211,840</span>
+        </div>
+        <div class="class-bar-row">
+          <span class="class-name">Ponderosa Pine</span>
+          <div class="bar-track"><div class="bar-fill" style="width:12.6%"></div></div>
+          <span class="bar-count">35,754</span>
+        </div>
+        <div class="class-bar-row">
+          <span class="class-name">Krummholz</span>
+          <div class="bar-track"><div class="bar-fill" style="width:7.2%"></div></div>
+          <span class="bar-count">20,510</span>
+        </div>
+        <div class="class-bar-row">
+          <span class="class-name">Douglas Fir</span>
+          <div class="bar-track"><div class="bar-fill" style="width:6.1%"></div></div>
+          <span class="bar-count">17,367</span>
+        </div>
+        <div class="class-bar-row">
+          <span class="class-name">Aspen</span>
+          <div class="bar-track"><div class="bar-fill" style="width:3.4%"></div></div>
+          <span class="bar-count">9,493</span>
+        </div>
+        <div class="class-bar-row">
+          <span class="class-name">Cottonwood/Willow</span>
+          <div class="bar-track"><div class="bar-fill" style="width:1%"></div></div>
+          <span class="bar-count">2,747</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Why this dataset -->
+    <div class="form-card">
+      <h3>Why this dataset ✓</h3>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div class="info-box">
+          <h4>Rubric Compliance</h4>
+          <ul>
+            <li>7 classes (≥ 4 required)</li>
+            <li>581K instances (≥ 2,500 required)</li>
+            <li>55 features (≥ 20 required)</li>
+            <li>Zero missing values</li>
+          </ul>
+        </div>
+        <div class="info-box">
+          <h4>Algorithm Suitability</h4>
+          <ul>
+            <li>KNN — distance-based terrain features</li>
+            <li>Naïve Bayes — binary soil/wilderness flags</li>
+            <li>K-Means — 7 natural geo-ecological clusters</li>
+            <li>Random Forest — handles high-dimensional mixed data</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ═══════════════════  PREDICTOR SECTION  ═══════════════ -->
+<section id="predict">
+  <div class="section-header">
+    <span class="section-num">02</span>
+    <h2>Live Cover Type Predictor</h2>
+    <span class="tag">
+      <span class="status-dot" id="apiDot"></span>
+      <span id="apiStatus">connecting…</span>
+    </span>
+  </div>
+
+  <div class="predictor-layout">
+
+    <!-- LEFT: Form -->
+    <div class="form-card">
+      <h3>Select Algorithm</h3>
+      <div class="algo-selector">
+        <button class="algo-btn active" onclick="selectAlgo('knn', this)">
+          K-Nearest Neighbors
+          <span class="algo-tag">Supervised</span>
+        </button>
+        <button class="algo-btn" onclick="selectAlgo('naive_bayes', this)">
+          Naïve Bayes
+          <span class="algo-tag">Supervised</span>
+        </button>
+        <button class="algo-btn" onclick="selectAlgo('random_forest', this)">
+          Random Forest
+          <span class="algo-tag">Supervised ★ Choice</span>
+        </button>
+        <button class="algo-btn" onclick="selectAlgo('kmeans', this)">
+          K-Means
+          <span class="algo-tag">Unsupervised</span>
+        </button>
+      </div>
+
+      <h3>Input Features</h3>
+      <div class="field-grid">
+        <div class="field">
+          <label>Elevation (m)</label>
+          <input type="number" id="elevation" value="2596" min="1859" max="3858">
+        </div>
+        <div class="field">
+          <label>Aspect (°)</label>
+          <input type="number" id="aspect" value="51" min="0" max="360">
+        </div>
+        <div class="field">
+          <label>Slope (°)</label>
+          <input type="number" id="slope" value="3" min="0" max="66">
+        </div>
+        <div class="field">
+          <label>H. Dist. Hydrology</label>
+          <input type="number" id="h_dist_hydrology" value="258" min="0">
+        </div>
+        <div class="field">
+          <label>V. Dist. Hydrology</label>
+          <input type="number" id="v_dist_hydrology" value="0">
+        </div>
+        <div class="field">
+          <label>H. Dist. Roadways</label>
+          <input type="number" id="h_dist_roadways" value="510" min="0">
+        </div>
+        <div class="field">
+          <label>Hillshade 9am</label>
+          <input type="number" id="hillshade_9am" value="221" min="0" max="255">
+        </div>
+        <div class="field">
+          <label>Hillshade Noon</label>
+          <input type="number" id="hillshade_noon" value="232" min="0" max="255">
+        </div>
+        <div class="field">
+          <label>Hillshade 3pm</label>
+          <input type="number" id="hillshade_3pm" value="148" min="0" max="255">
+        </div>
+        <div class="field">
+          <label>H. Dist. Fire Points</label>
+          <input type="number" id="h_dist_fire_points" value="6279" min="0">
+        </div>
+        <div class="field">
+          <label>Wilderness Area</label>
+          <select id="wilderness_area">
+            <option value="1">Rawah</option>
+            <option value="2">Neota</option>
+            <option value="3">Comanche Peak</option>
+            <option value="4">Cache la Poudre</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Soil Type (1–40)</label>
+          <input type="number" id="soil_type" value="29" min="1" max="40">
+        </div>
+      </div>
+
+      <button class="predict-btn" id="predictBtn" onclick="runPrediction()">
+        Predict Cover Type →
+      </button>
+    </div>
+
+    <!-- RIGHT: Result Panel -->
+    <div class="result-panel" id="resultPanel">
+      <!-- Empty state -->
+      <div class="result-empty" id="resultEmpty">
+        <svg width="48" height="48" viewBox="0 0 48 48" fill="none">
+          <circle cx="24" cy="24" r="22" stroke="currentColor" stroke-width="1.5"/>
+          <path d="M24 14 L24 26 M24 32 L24 34" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+        <span style="font-size:.85rem;">Configure inputs and hit predict</span>
+      </div>
+
+      <!-- Result content -->
+      <div id="resultContent" style="display:none">
+        <div>
+          <span class="result-type-badge" id="rBadge">cover type</span>
+          <div class="result-class" id="rClass">—</div>
+          <div class="result-algo" id="rAlgo">—</div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
+            Class Probabilities
+          </div>
+          <div class="prob-bars" id="probBars"></div>
+        </div>
+        <div>
+          <div style="font-family:var(--mono);font-size:.7rem;color:var(--text3);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;">
+            Model Metrics (test set)
+          </div>
+          <div class="metrics-mini" id="metricsGrid"></div>
+        </div>
+      </div>
+
+      <!-- Loading state -->
+      <div id="resultLoading" style="display:none;text-align:center;padding:2rem;color:var(--text2);">
+        <span class="loading-spinner"></span> Running prediction…
+      </div>
+
+      <!-- Error state -->
+      <div id="resultError" style="display:none"></div>
+    </div>
+
+  </div>
+</section>
+
+<hr class="divider">
+
+<!-- ════════════════  COMPARISON SECTION  ════════════════ -->
+<section id="compare">
+  <div class="section-header">
+    <span class="section-num">03</span>
+    <h2>Algorithm Comparison</h2>
+  </div>
+
+  <!-- Metrics Table -->
+  <div class="form-card" style="margin-bottom:2rem;">
+    <h3>Performance Metrics (15,000 sample — 80/20 split)</h3>
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Algorithm</th><th>Type</th><th>Accuracy</th>
+          <th>F1 Score</th><th>Precision</th><th>Recall</th>
+        </tr>
+      </thead>
+      <tbody id="compTableBody">
+        <tr><td colspan="6" style="text-align:center;color:var(--text3);font-size:.82rem;padding:1.5rem;">
+          <span class="loading-spinner"></span> Loading metrics…
+        </td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Charts Row 1: Bar + Radar -->
+  <div class="two-col" style="margin-bottom:1.5rem;">
+    <div class="form-card">
+      <h3>📊 Grouped Bar Chart — All Metrics</h3>
+      <canvas id="barChart" height="220"></canvas>
+    </div>
+    <div class="form-card">
+      <h3>🕸 Radar Chart — Model Shape</h3>
+      <canvas id="radarChart" height="220"></canvas>
+    </div>
+  </div>
+
+  <!-- Charts Row 2: Donut + Prediction History -->
+  <div class="two-col" style="margin-bottom:2rem;">
+    <div class="form-card">
+      <h3>🍩 Dataset Class Distribution</h3>
+      <canvas id="donutChart" height="220"></canvas>
+    </div>
+    <div class="form-card">
+      <h3>📈 Prediction History (this session)</h3>
+      <div id="predHistoryEmpty" style="color:var(--text3);font-size:.82rem;text-align:center;padding:3rem 0;">
+        No predictions yet — run some predictions to see history
+      </div>
+      <canvas id="historyChart" height="220" style="display:none"></canvas>
+    </div>
+  </div>
+
+  <!-- Info boxes -->
+  <div class="two-col" style="margin-bottom: 2rem;">
+    <div class="info-box">
+      <h4>Why Random Forest as the 4th Algorithm?</h4>
+      <p>Random Forest is an ensemble method not covered in class. It builds multiple
+         decision trees and aggregates their votes, making it highly resistant to overfitting.
+         On this dataset's high-dimensional mix of continuous terrain features and binary
+         soil/wilderness indicators, it consistently outperforms KNN and Naïve Bayes by
+         leveraging feature importance across 100 trees.</p>
+    </div>
+    <div class="info-box">
+      <h4>Improving Naïve Bayes Results</h4>
+      <p>Naïve Bayes underperforms here because it assumes feature independence — but
+         elevation, slope, and hillshade are strongly correlated. To improve: apply PCA
+         first to decorrelate features, or use Complement Naïve Bayes which handles
+         imbalanced multi-class problems better. Feature engineering (combining hillshade
+         values into a single index) can also help separate overlapping classes.</p>
+    </div>
+  </div>
+
+  <!-- ── Recommendation Card ── -->
+  <div class="recommendation-card">
+    <div class="rec-header">
+      <div class="rec-badge">Recommendation</div>
+      <div class="rec-title">Deploy with Random Forest</div>
+      <div class="rec-sub">Best overall model for Forest Cover Type prediction</div>
+    </div>
+
+    <div class="rec-body">
+      <!-- Why RF -->
+      <div class="rec-block">
+        <div class="rec-block-title">
+          <span class="rec-icon rec-icon-green">✓</span>
+          Why Random Forest is the Primary Model
+        </div>
+        <div class="rec-points">
+          <div class="rec-point">
+            <span class="rec-dot green"></span>
+            <span>Best overall metrics across all categories</span>
+          </div>
+          <div class="rec-point">
+            <span class="rec-dot green"></span>
+            <span>Balanced performance — precision ≈ recall</span>
+          </div>
+          <div class="rec-point">
+            <span class="rec-dot green"></span>
+            <span>More robust for tabular and forest cover data</span>
+          </div>
+          <div class="rec-point">
+            <span class="rec-dot green"></span>
+            <span>Handles non-linear relationships well</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Improvements -->
+      <div class="rec-block">
+        <div class="rec-block-title">
+          <span class="rec-icon rec-icon-amber">↑</span>
+          Potential Improvements
+        </div>
+        <div class="rec-points">
+          <div class="rec-point">
+            <span class="rec-dot amber"></span>
+            <span><strong>Hyperparameter tuning</strong> — Random Forest could reach 75%+ with optimization</span>
+          </div>
+          <div class="rec-point">
+            <span class="rec-dot amber"></span>
+            <span><strong>Class imbalance handling</strong> — 13% Naïve Bayes score suggests imbalanced classes</span>
+          </div>
+          <div class="rec-point">
+            <span class="rec-dot amber"></span>
+            <span><strong>Feature engineering</strong> — 55 features, some may be redundant</span>
+          </div>
+          <div class="rec-point">
+            <span class="rec-dot amber"></span>
+            <span><strong>Try XGBoost or LightGBM</strong> — Often better than Random Forest on tabular data</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom verdict -->
+    <div class="rec-verdict">
+      <span class="rec-verdict-label">Bottom Line</span>
+      <span class="rec-verdict-text">
+        Deploy with Random Forest — it is clearly the most reliable model for the Forest Cover Type prediction task.
+      </span>
+    </div>
+  </div>
+
+</section>
+
+<!-- ═══════════════════════  FOOTER  ══════════════════════ -->
+<footer>
+  <p>Open-End Lab — Spring 2026 &nbsp;·&nbsp;
+     Dataset: <span>UCI Forest Cover Type</span> &nbsp;·&nbsp;
+     Backend: <span>FastAPI + scikit-learn</span>
+  </p>
+  <p style="margin-top:4px;">CLO 03, 04, 05 &nbsp;·&nbsp; Deadline: 07 June 2026</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

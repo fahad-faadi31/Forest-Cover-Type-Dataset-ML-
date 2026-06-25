@@ -1,0 +1,20 @@
+{
+  "knn": {
+    "accuracy": 68.97,
+    "f1": 68.48,
+    "precision": 68.51,
+    "recall": 68.97
+  },
+  "naive_bayes": {
+    "accuracy": 13.4,
+    "f1": 12.21,
+    "precision": 65.07,
+    "recall": 13.4
+  },
+  "random_forest": {
+    "accuracy": 71.03,
+    "f1": 70.65,
+    "precision": 70.71,
+    "recall": 71.03
+  }
+}
